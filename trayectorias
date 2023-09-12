@@ -1,0 +1,57 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Definiendo la función caminata_aleatoria
+def caminata_aleatoria(pasos, seed):
+    np.random.seed(seed)  
+    return np.cumsum(2 * np.random.randint(0, 2, pasos) - 1)
+
+# Parámetros de la simulación
+simulaciones = 250
+pasos = 1000000
+
+# Creando una lista de parámetros para cada simulación
+params = [(pasos, i) for i in range(simulaciones)]
+
+# Ejecutando las simulaciones en un bucle
+trayectorias = np.array([caminata_aleatoria(*param) for param in params])
+
+# Calculando el máximo y el mínimo valor en cada trayectoria y contando las que superaron el nivel 1
+maximo = np.max(trayectorias, axis=1)
+minimo = np.min(trayectorias, axis=1)
+superan_nivel_1 = np.sum(trayectorias[:, -1] > 1)
+
+# Mostrando los resultados
+max_global = np.max(maximo)
+min_global = np.min(minimo)
+resultados = [
+    f"Máximo global: {max_global}",
+    f"Mínimo global: {min_global}",
+    f"Número de trayectorias que superaron el nivel 1: {superan_nivel_1}"
+]
+
+# Preparando para graficar todas las trayectorias (con transparencia para evitar saturación visual)
+fig, ax = plt.subplots(figsize=(10,6))
+for i in range(simulaciones):
+    ax.plot(trayectorias[i], color='gray', alpha=0.2, linewidth=0.5)
+
+# Graficando la trayectoria que alcanzó el valor máximo y la que alcanzó el valor mínimo
+indice_max_global = np.argmax(maximo)
+indice_min_global = np.argmin(minimo)
+ax.plot(trayectorias[indice_max_global], color='red', label='Trayectoria con máximo global')
+ax.plot(trayectorias[indice_min_global], color='blue', label='Trayectoria con mínimo global')
+
+# Graficando el nivel 1
+ax.axhline(y=1, color='green', linestyle='--', label='Nivel 1')
+
+# Añadiendo etiquetas y título
+ax.set_xlabel('Pasos')
+ax.set_ylabel('Posición')
+ax.set_title('Simulación de Caminata Aleatoria - Etapa 3')
+ax.legend()
+
+# Mostrando el gráfico
+plt.show()
+
+# Retornando los resultados
+print(resultados)
