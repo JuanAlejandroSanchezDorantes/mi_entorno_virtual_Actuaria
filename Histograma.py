@@ -12,30 +12,20 @@ final_values = np.zeros(num_simulations)
 
 # Recorrer cada simulación
 for i in range(num_simulations):
-    # Número inicial de bolas blancas
-    Y_n = 1
-    # Número total inicial de bolas
-    total_balls = 1
     
     # Simular el proceso
     for t in range(1, n + 1):
-        # Añade una bola blanca con 50% de probabilidad, de lo contrario añade una bola negra
-        new_ball = np.random.choice(['white', 'black'])
-        if new_ball == 'white':
-            Y_n += 1
-        total_balls += 1
+        # Para una Bernoulli con p = 0.5, X_n será 1 o 0 con igual probabilidad
+        X_n = np.random.choice([1, 0], p=[0.5, 0.5])
         
-        # Actualizar X_n (martingala)
-        X_n = Y_n / (total_balls + 1)
-    
     # Almacena el valor final de X_n para esta simulación
     final_values[i] = X_n
 
 # Crear el histograma
 plt.figure(figsize=(10, 6))
-plt.hist(final_values, bins=30, density=True, color='skyblue', edgecolor='black')
+plt.hist(final_values, bins=2, density=True, color='skyblue', edgecolor='black')
 plt.xlabel('$X_{10,000}$')
-plt.ylabel('Frequency')
-plt.title('Histogram of $X_{10,000}$ for 3000 Simulations')
+plt.ylabel('Frecuencia')
+plt.title('Histograma de $X_{10,000}$ para 3000 simulaciones (Bernoulli)')
 plt.grid(True)
 plt.show()
