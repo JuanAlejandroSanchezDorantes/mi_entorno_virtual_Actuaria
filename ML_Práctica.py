@@ -56,8 +56,8 @@ train_auc = roc_auc_score(y_train, pipeline.predict_proba(X_train)[:, 1])
 val_auc = roc_auc_score(y_val, y_val_pred)
 
 # Imprimir las puntuaciones AUC
-print(f'Training AUC: {train_auc}')
-print(f'Validation AUC: {val_auc}')
+print(f'Entrenamiento AUC: {train_auc}')
+print(f'Validación AUC: {val_auc}')
 
 # Extraer importancias de características
 # Obtenga los nombres de las características codificadas en un punto
@@ -77,7 +77,7 @@ feature_importance = zip(feature_names, coefficients)
 sorted_features = sorted(feature_importance, key=lambda x: abs(x[1]), reverse=True)
 
 # Imprime las 10 características más importantes
-print('Top 10 features by importance:')
+print('Las 10 funciones más importantes:')
 for feature, coef in sorted_features[:10]:
     print(f'{feature}: {coef}')
 
